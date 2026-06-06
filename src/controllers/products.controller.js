@@ -63,3 +63,40 @@ export const getSingleProduct = (req, res) => {
     data: product,
   });
 };
+
+// create product
+export const createProduct = (req, res) => {
+  const product = req.body;
+
+  product.id = products.length + 1;
+
+  products.push(product);
+
+  res.status(201).json({
+    message: "Product created successfully",
+    data: product,
+  });
+};
+
+// update product
+export const updateProduct = (req, res) => {
+  const id = Number(req.params.id);
+
+  const productIndex = products.findIndex((mahsulot) => mahsulot.id === id);
+
+  if (productIndex === -1) {
+    return res.status(404).json({
+      message: "Product nod found",
+    });
+  }
+
+  products[productIndex] = {
+    ...products[productIndex],
+    ...req.body,
+  };
+
+  res.json({
+    message: "Product updated successfully",
+    data: products[productIndex],
+  });
+};
